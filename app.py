@@ -36,20 +36,29 @@ def clear_conversation():
 
 
 def main():
-    st.set_page_config(page_title="Ivbezinho - Seu Professor de Inglês", page_icon="🇬🇧")
+    st.set_page_config(page_title="Ivbezinho - Seu Professor de Inglês", page_icon="🇬🇧", layout="wide")
     st.title("🇬🇧 Ivbezinho - Seu Professor de Inglês")
     st.markdown("Bem-vindo ao Ivbezinho, seu assistente de ensino de inglês!")
 
     initialize_session()
 
-    if st.button("Limpar Conversa"):
-        clear_conversation()
+    # Sidebar for configurations and clear button
+    with st.sidebar:
+        st.header("Configurações")
+        if st.button("Limpar Conversa"):
+            clear_conversation()
 
+    # Main chat interface
+    st.container()  # Placeholder for future layout adjustments
     for message in st.session_state.chat_history:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    if prompt := st.chat_input("Digite sua pergunta sobre inglês"):
+    # Input field for user prompt
+    prompt = st.chat_input("Digite sua pergunta sobre inglês")
+
+    # Process user input
+    if prompt:
         st.session_state.chat_history.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
@@ -75,3 +84,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
