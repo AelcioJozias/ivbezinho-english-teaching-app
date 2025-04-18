@@ -6,6 +6,8 @@ from src.llm_setup import LLMSetup
 from src.vector_store import VectorStoreManager
 from src.chat_interface import ChatManager
 
+# Set page configuration as the first Streamlit command
+st.set_page_config(page_title="Ivbezinho - Seu Professor de Inglês", page_icon="ivb", layout="centered")
 
 def initialize_session():
     """Inicializa todos os componentes da sessão"""
@@ -35,15 +37,37 @@ def clear_conversation():
     st.rerun()
 
 
+def apply_custom_styles():
+    """Aplica estilos personalizados para o frontend."""
+    st.markdown(
+        """
+        <style> 
+# #MainMenu {visibility: hidden;} 
+# footer {visibility: hidden;} 
+# header {visibility: hidden;} 
+</style>
+        """,
+        unsafe_allow_html=True
+    )
+
+
 def main():
-    st.set_page_config(page_title="Ivbezinho - Seu Professor de Inglês", page_icon="🇬🇧", layout="wide")
-    st.title("🇬🇧 Ivbezinho - Seu Professor de Inglês")
-    st.markdown("Bem-vindo ao Ivbezinho, seu assistente de ensino de inglês!")
+    apply_custom_styles()  # Chama a função para aplicar os estilos
+    col1, col2 = st.columns([1, 5], vertical_alignment="center")
+    with col1:
+        st.image("image/Ivbezinho - tamanho de arquivo reduzido.png", width=100)  # Ajuste o tamanho conforme necessário
+    with col2:
+        st.title("Ivebezinho")
+
+    st.markdown(
+        '<p style="font-size:20px;">Hello! Sou Ivebezinho! O tutor da academia IVB. Em que posso te ajudar?</p>',
+        unsafe_allow_html=True)
 
     initialize_session()
 
     # Sidebar for configurations and clear button
     with st.sidebar:
+        st.image("image/logo.jpeg", width=200)
         st.header("Configurações")
         if st.button("Limpar Conversa"):
             clear_conversation()

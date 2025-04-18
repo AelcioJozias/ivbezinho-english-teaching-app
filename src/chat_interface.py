@@ -1,6 +1,5 @@
 from typing import Dict, Any
 from langchain.chains import ConversationalRetrievalChain
-from langchain.schema import BaseRetriever
 
 
 class ChatManager:
