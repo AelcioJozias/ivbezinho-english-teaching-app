@@ -5,11 +5,16 @@ import os
 
 
 class DocumentLoader:
+    _cached_documents: List[Document] = None  # cache em nível de classe
+
     def __init__(self, knowledge_dir: str):
         self.knowledge_dir = knowledge_dir
 
     def load_documents(self) -> List[Document]:
-        """Carrega todos os documentos da pasta de conhecimento"""
+        """Carrega documentos da pasta de conhecimento apenas uma vez"""
+        if DocumentLoader._cached_documents is not None:
+            return DocumentLoader._cached_documents  # retorna do cache
+
         documents = []
 
         if not os.path.exists(self.knowledge_dir):
@@ -27,4 +32,6 @@ class DocumentLoader:
             except Exception as e:
                 print(f"Erro ao carregar o arquivo {file}: {e}")
 
+        # Salva no cache
+        DocumentLoader._cached_documents = documents
         return documents

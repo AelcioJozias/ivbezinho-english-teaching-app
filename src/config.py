@@ -8,9 +8,11 @@ class AppConfig:
         load_dotenv()
 
         self.knowledge_dir = "knowledge_base"
-        self.model_name = "gemini-1.5-flash"
+        self.model_name = "gemini-2.0-flash"
         self.embedding_model = "models/embedding-001"
         self.temperature = 0.7
+        self.knowledge_dir = "./knowledge_base"  # Ou onde ficam seus PDFs/TXT
+        self.vectorstore_path = "./vectorstore"  # Pasta onde o FAISS será salvo
 
         # tenta carregar da env local ou dos segredos do Streamlit
         self.api_key = self.get_api_key()

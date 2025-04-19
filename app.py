@@ -19,12 +19,20 @@ def initialize_session():
 
     if "vectorstore" not in st.session_state:
         config = AppConfig()
-        loader = DocumentLoader(config.knowledge_dir)
-        documents = loader.load_documents()
-
         vector_manager = VectorStoreManager(config)
-        st.session_state.vectorstore = vector_manager.create_vectorstore(documents)
 
+        # Primeiro tenta carregar o vectorstore do disco
+        vectorstore = vector_manager.load_vectorstore()
+
+        # Se não encontrar, carrega os documentos e cria o vectorstore
+        if vectorstore is None:
+            loader = DocumentLoader(config.knowledge_dir)
+            documents = loader.load_documents()
+            vectorstore = vector_manager.create_vectorstore(documents)
+
+        st.session_state.vectorstore = vectorstore
+
+    if "llm" not in st.session_state or "prompt_template" not in st.session_state:
         llm_setup = LLMSetup(config)
         st.session_state.llm = llm_setup.get_llm()
         st.session_state.prompt_template = llm_setup.get_prompt_template()
